@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact name="unnamed">
+    <output-path>$PROJECT_DIR$/out/artifacts/unnamed</output-path>
+    <root id="root">
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="eclipselink" />
+        <element id="library" level="project" name="KotlinJavaRuntime" />
+        <element id="library" level="project" name="MySQLDriver" />
+        <element id="library" level="project" name="Printing" />
+        <element id="library" level="project" name="Web_LAF" />
+      </element>
+    </root>
+  </artifact>
+</component>

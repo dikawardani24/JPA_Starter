@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="jpa_starter_dika">
+    <output-path>$PROJECT_DIR$/out/artifacts/jpa_starter_dika</output-path>
+    <root id="archive" name="jpa_starter_dika.jar">
+      <element id="module-output" name="JPA_Starter" />
+    </root>
+  </artifact>
+</component>

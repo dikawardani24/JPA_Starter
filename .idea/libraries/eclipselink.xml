@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="eclipselink">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib/eclipselink" />
+      <root url="file://$PROJECT_DIR$/lib/eclipselinkmodelgen" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/eclipselink" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/eclipselinkmodelgen" recursive="false" />
+  </library>
+</component>
