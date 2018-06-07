@@ -8,6 +8,7 @@ import com.dika.view.component.Panel
 import com.dika.view.component.custom.AddButton
 import com.dika.view.component.custom.HeaderLabel
 import com.dika.view.component.custom.PrintButton
+import javax.swing.WindowConstants
 
 class CommonManagerViewImpl(title: String): Frame(), CommonManagerView {
     private val panel = Panel()
@@ -27,8 +28,10 @@ class CommonManagerViewImpl(title: String): Frame(), CommonManagerView {
         headerLabel.text = title
         this.title = title
 
+        defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
+
         val panel1Layout = javax.swing.GroupLayout(panel)
-        panel.setLayout(panel1Layout)
+        panel.layout = panel1Layout
         panel1Layout.setHorizontalGroup(
                 panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(panel1Layout.createSequentialGroup()

@@ -51,8 +51,15 @@ abstract class CommonManagerActivity<P: Number, M: AbstractEntity<P>>(title: Str
     }
 
     override fun initListener(view: CommonManagerView) {
-        tableModel = createTableModel(pagingTableView.table)
-        pagingTableViewAction = PagingTableViewAction(this, pagingTableView, 100)
+        pagingTableView.run {
+            table.apply {
+                isEditable = false
+                tableModel = createTableModel(this)
+            }
+
+            pagingTableViewAction = PagingTableViewAction(this@CommonManagerActivity,
+                    this, 100)
+        }
 
         addButton.addActionListener({ onAddModel() })
         printButton.addActionListener({ printDataTable() })
