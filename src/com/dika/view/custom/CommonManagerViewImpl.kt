@@ -8,6 +8,7 @@ import com.dika.view.component.Panel
 import com.dika.view.component.custom.AddButton
 import com.dika.view.component.custom.HeaderLabel
 import com.dika.view.component.custom.PrintButton
+import java.awt.Dimension
 import javax.swing.WindowConstants
 
 class CommonManagerViewImpl(title: String): Frame(), CommonManagerView {
@@ -76,6 +77,11 @@ class CommonManagerViewImpl(title: String): Frame(), CommonManagerView {
         )
 
         pack()
+
+        val size = Dimension(800, 500)
+        minimumSize = size
+        preferredSize = size
+
     }
 
     override fun getRoot(): Frame {
