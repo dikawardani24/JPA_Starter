@@ -41,7 +41,7 @@ abstract class CommonManagerActivity<P: Number, M: AbstractEntity<P>>(title: Str
         pagingTableViewAction.refreshPage()
     }
 
-    protected fun getModelOnSelectedRow(): M? {
+    protected fun getEntityOnSelectedRow(): M? {
         val selectedRow = pagingTableView.table.selectedRow
 
         return when {
@@ -61,10 +61,15 @@ abstract class CommonManagerActivity<P: Number, M: AbstractEntity<P>>(title: Str
                     this, 100)
         }
 
-        addButton.addActionListener({ onAddModel() })
         printButton.addActionListener({ printDataTable() })
-        updateMenuItem.addActionListener({ onUpdateModel() })
-        deleteMenuItem.addActionListener({ onDeleteModel() })
+
+        addButton.addActionListener({ onAddEntity() })
+        updateMenuItem.addActionListener({
+            doWhenNotNull { onUpdate(it) }
+        })
+        deleteMenuItem.addActionListener({
+            doWhenNotNull { onDelete(it) }
+        })
 
         add(object : OnStartedAction {
             override fun invoke(activity: Activity<*>?) {
@@ -79,13 +84,22 @@ abstract class CommonManagerActivity<P: Number, M: AbstractEntity<P>>(title: Str
         })
     }
 
+    private fun doWhenNotNull(run: (entity: M)->Unit) {
+        getEntityOnSelectedRow().let {
+            when(it) {
+                null -> showInfo("Tidak Ada Baris Terpilih")
+                else -> run(it)
+            }
+        }
+    }
+
     override fun getRoot(): Frame {
         return commonManagerView.root
     }
 
-    protected abstract fun onUpdateModel()
-    protected abstract fun onDeleteModel()
-    protected abstract fun onAddModel()
+    protected abstract fun onUpdate(entity: M)
+    protected abstract fun onDelete(entity: M)
+    protected abstract fun onAddEntity()
     protected abstract fun createTableModel(table: Table): EntityTableModel<M>
     protected abstract fun onCreateDataReport(): DataReport
 
