@@ -9,6 +9,7 @@ import com.dika.view.component.custom.AddButton
 import com.dika.view.component.custom.HeaderLabel
 import com.dika.view.component.custom.PrintButton
 import java.awt.Dimension
+import javax.swing.JPopupMenu
 import javax.swing.WindowConstants
 
 class CommonManagerViewImpl(title: String): Frame(), CommonManagerView {
@@ -23,6 +24,16 @@ class CommonManagerViewImpl(title: String): Frame(), CommonManagerView {
 
     init {
         initComponents(title)
+        createContextMenu()
+    }
+
+    private fun createContextMenu() {
+        val popUpMenu = JPopupMenu().apply {
+            add(updateMenuItem)
+            add(deleteMenuItem)
+        }
+
+        pagingTableView.table.componentPopupMenu = popUpMenu
     }
 
     private fun initComponents(title: String) {
