@@ -10,6 +10,7 @@ abstract class AbstractEntity<P: Number>: Serializable, Cloneable, Comparable<Ab
     }
 
     @Throws(CloneNotSupportedException::class)
+    public
     override fun clone(): Any = super.clone()
 
     override fun compareTo(other: AbstractEntity<P>): Int {
