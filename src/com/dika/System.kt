@@ -18,6 +18,8 @@ import javax.persistence.PersistenceException
 import kotlin.concurrent.thread
 
 object System {
+    var companyName: String = "Copas Rtp"
+    var addressCompanty: String = "Kp. Bojong Sompok Rt 07/05 No.115 Desa Tegal - Kemang, Bogor - Jawa Barat"
     var persitenceName: String? = null
     var loggerType = Logger.LoggerType.FULL_VERBOSE
     var allowMultipleInstance = false

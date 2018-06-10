@@ -1,5 +1,6 @@
 package com.dika.report
 
+import com.dika.System
 import com.dika.activity.Activity
 import com.dika.res.BigIconRes
 import com.dika.res.SmallIconRes
@@ -39,8 +40,8 @@ open class Report(val reportTitle: String) {
                     horizontalList(
                             image(BigIconRes.univIcon.image).setFixedDimension(30, 30),
                             verticalList(
-                                    text("Copas Rtp").setStyle(buildBoldFont18Style()),
-                                    text("Kp. Bojong Sompok Rt 07/05 No.115 Desa Tegal - Kemang, Bogor - Jawa Barat")
+                                    text(System.companyName).setStyle(buildBoldFont18Style()),
+                                    text(System.addressCompanty)
                                             .setStyle(buildFont8CenterStyle()))),
                     verticalGap(5),
                     line().setPen(stl.pen2Point()),
