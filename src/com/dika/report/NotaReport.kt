@@ -8,10 +8,11 @@ import net.sf.dynamicreports.report.constant.PageOrientation
 import net.sf.dynamicreports.report.constant.PageType
 
 abstract class NotaReport<M: AbstractEntity<*>>(reportTitle: String, protected val model: M): Report(reportTitle) {
+    var pageType: PageType = PageType.A4
 
     override fun build() {
         super.build()
-        jasperReportBuilder.setPageFormat(PageType.A6, PageOrientation.LANDSCAPE)
+        jasperReportBuilder.setPageFormat(pageType, PageOrientation.LANDSCAPE)
                 .title(createDetail(model))
     }
 
