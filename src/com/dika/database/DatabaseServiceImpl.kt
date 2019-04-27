@@ -19,13 +19,13 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
     }
 
     override fun update(model: E) {
-        manipulate(model) {
+        onExist(model) {
             merge(model)
         }
     }
 
     override fun destroy(model: E) {
-        manipulate(model) {
+        onExist(model) {
             remove(it)
         }
     }
@@ -114,6 +114,13 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
         }
     }
 
+    /**
+     * Load all rows or limit the total result rows from database from the specified table name
+     * @param all Set this value to true if you wish to load all rows, param maxResults and firstResult will be ignored
+     *            when the value is true
+     * @param maxResults The limit the result rows from database
+     * @param firstResult The starting point of row on getting data from database
+     */
     private fun findAll(all: Boolean, maxResults: Int = 1, firstResult: Int = 1): List<E> {
         return execute {
             criteriaBuilder.createQuery(entityKClass).run {
@@ -164,15 +171,15 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
      * accept its result as [R] type.
      * This function will commit automatically if the current transaction
      * is not set as rollback only.
-     * @param   block the function to be executed
+     * @param   run the function to be executed
      * @return  the instance of [R]
      * @author  dikawardani24@gmail.com
      */
-    protected fun <R> transaction(block: EntityManager.() -> R): R {
+    protected fun <R> transaction(run: EntityManager.() -> R): R {
         return execute {
             transaction.run {
                 begin()
-                block().apply {
+                run().apply {
                     if (!rollbackOnly) commit()
                 }
             }
@@ -181,19 +188,17 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
 
     /**
      * Manipulate the data of [E] if the data is still exist in database server.
-     * The manipulate operation will be applied by execute blockIcon function and
+     * The onExist operation will be applied by execute blockIcon function and
      * the blockIcon function itself would receive the existence data of [E]
-     * @param   model the model to be manipulate
-     * @param   block the function to be executed in manipulating data
+     * @param   model the model to be onExist
+     * @param   run the function to be executed in manipulating data
      * @throws  NotFoundException if the model of [E] is not exist on database server
      * @author  dikawardani24@gmail.com
      */
-    private fun manipulate(model: E, block: EntityManager.(model: E) -> Unit) {
+    private fun onExist(model: E, run: EntityManager.(model: E) -> Unit) {
         return transaction { 
             try {
-                getReference(entityKClass, model.id).let {
-                    block(it)
-                }
+                run(getReference(entityKClass, model.id))
             } catch (en: EntityNotFoundException) {
                 throw NotFoundException(model)
             }
@@ -225,10 +230,10 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
 
     /**
      * Executing [EntityManager] operation using current actice [EntityManagerFactory] where the result type
-     * from that operation is [R]. After the operation has been executed, the [EntityManagerFactory] will be closedimmediately.
+     * from that operation is [R]. After the operation has been executed, the [EntityManagerFactory] will be closed immediately.
      * This function will throw [ConnectionException] if the current [EntityManagerFactory]
      * couldn't established connection between application and database server
-     * @param   block the function to be executed
+     * @param   run the function to be executed
      * @return  instance of [R]
      * @throws  [UnloadPersistenceException] if [Persistence] couldn't create [EntityManagerFactory] using the given
      *          persistence config name.
@@ -237,7 +242,7 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
      *          of the [SystemException]
      * @author  dikawardani24@gmail.com
      */
-    private fun <R> execute(block: EntityManager.() -> R): R {
+    private fun <R> execute(run: EntityManager.() -> R): R {
         if (emf == null) {
             emf = loadFactory(System.persitenceName)
         }
@@ -247,7 +252,7 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
 
             it.run {
                 return try {
-                    createEntityManager().block()
+                    createEntityManager().run()
                 } catch (ex: PersistenceException) {
                     ex.cause?.run {
                         when(this) {

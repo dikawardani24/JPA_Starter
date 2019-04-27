@@ -138,27 +138,15 @@ abstract class Activity<V : View<*>> {
     }
 
     protected fun addStartedAction(action: () -> Unit) {
-        add(object : OnStartedAction {
-            override fun invoke(activity: Activity<*>) {
-                action()
-            }
-        })
+        add(OnStartedAction { action() })
     }
 
     protected fun addResumedAction(action: () -> Unit) {
-        add(object : OnResumedAction {
-            override fun invoke(activity: Activity<*>) {
-                action()
-            }
-        })
+        add(OnResumedAction { action() })
     }
 
     protected fun addStoppedAction(action: () -> Unit) {
-        add(object : OnStoppedAction {
-            override fun invoke(activity: Activity<*>) {
-                action()
-            }
-        })
+        add(OnStoppedAction { action() })
     }
 
     private fun <A : ActivityAction, L : ArrayList<out A>> remove(activityAction: A, activityActions: L) {
@@ -319,9 +307,9 @@ abstract class Activity<V : View<*>> {
             report.showPreview(this).apply {
                 addWindowListener(object : WindowAdapter() {
                     override fun windowClosed(e: WindowEvent?) {
-                        whenViewIsJRootpane(view, {
+                        whenViewIsJRootpane(view) {
                             glassPane?.isVisible = false
-                        })
+                        }
                     }
                 })
             }

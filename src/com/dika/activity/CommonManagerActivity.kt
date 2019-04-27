@@ -64,12 +64,12 @@ abstract class CommonManagerActivity<P: Number, M: AbstractEntity<P>>(title: Str
         printButton.addActionListener({ printDataTable() })
 
         addButton.addActionListener({ onAddEntity() })
-        updateMenuItem.addActionListener({
+        updateMenuItem.addActionListener {
             doWhenNotNull { onUpdate(it) }
-        })
-        deleteMenuItem.addActionListener({
+        }
+        deleteMenuItem.addActionListener {
             doWhenNotNull { onDelete(it) }
-        })
+        }
 
         add(object : OnStartedAction {
             override fun invoke(activity: Activity<*>?) {
