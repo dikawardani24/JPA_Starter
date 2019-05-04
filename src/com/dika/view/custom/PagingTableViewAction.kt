@@ -29,11 +29,11 @@ class PagingTableViewAction(private val pagingTableViewService: PagingTableViewS
 
     init {
         pagingTableView.run {
-            nextButton.addActionListener({ moveTo(page = Page.NEXT) })
-            previousButton.addActionListener({ moveTo(page = Page.PREV) })
-            firstPageButton.addActionListener({ moveTo(page = Page.FIRST) })
-            lastPageButton.addActionListener({ moveTo(page = Page.LAST) })
-            refreshButton.addActionListener({ refreshPage() })
+            nextButton.addActionListener { moveTo(page = Page.NEXT) }
+            previousButton.addActionListener { moveTo(page = Page.PREV) }
+            firstPageButton.addActionListener { moveTo(page = Page.FIRST) }
+            lastPageButton.addActionListener { moveTo(page = Page.LAST) }
+            refreshButton.addActionListener { refreshPage() }
         }
     }
 

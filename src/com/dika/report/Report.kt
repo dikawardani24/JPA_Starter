@@ -41,7 +41,7 @@ open class Report(val reportTitle: String) {
                             image(BigIconRes.univIcon.image).setFixedDimension(30, 30),
                             verticalList(
                                     text(System.companyName).setStyle(buildBoldFont18Style()),
-                                    text(System.addressCompanty)
+                                    text(System.addressCompany)
                                             .setStyle(buildFont8CenterStyle()))),
                     verticalGap(5),
                     line().setPen(stl.pen2Point()),

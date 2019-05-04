@@ -19,13 +19,13 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
     }
 
     override fun update(model: E) {
-        onExist(model) {
+        onExisted(model) {
             merge(model)
         }
     }
 
     override fun destroy(model: E) {
-        onExist(model) {
+        onExisted(model) {
             remove(it)
         }
     }
@@ -34,7 +34,7 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
         return execute {
             criteriaBuilder.createQuery().run {
                 select(criteriaBuilder.count(from(entityKClass)))
-                createQuery(this).run {
+                createQuery(this@run).run {
                     (singleResult as Long).toInt()
                 }
             }
@@ -188,14 +188,14 @@ abstract class DatabaseServiceImpl<P : Number, E : AbstractEntity<P>> : Database
 
     /**
      * Manipulate the data of [E] if the data is still exist in database server.
-     * The onExist operation will be applied by execute blockIcon function and
+     * The onExisted operation will be applied by execute blockIcon function and
      * the blockIcon function itself would receive the existence data of [E]
-     * @param   model the model to be onExist
+     * @param   model the model to be onExisted
      * @param   run the function to be executed in manipulating data
      * @throws  NotFoundException if the model of [E] is not exist on database server
      * @author  dikawardani24@gmail.com
      */
-    private fun onExist(model: E, run: EntityManager.(model: E) -> Unit) {
+    private fun onExisted(model: E, run: EntityManager.(model: E) -> Unit) {
         return transaction { 
             try {
                 run(getReference(entityKClass, model.id))

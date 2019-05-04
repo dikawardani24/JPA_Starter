@@ -71,17 +71,9 @@ abstract class CommonManagerActivity<P: Number, M: AbstractEntity<P>>(title: Str
             doWhenNotNull { onDelete(it) }
         }
 
-        add(object : OnStartedAction {
-            override fun invoke(activity: Activity<*>?) {
-                pagingTableViewAction.toFirstPage()
-            }
-        })
+        add(OnStartedAction { pagingTableViewAction.toFirstPage() })
 
-        add(object : OnResumedAction {
-            override fun invoke(activity: Activity<*>?) {
-                pagingTableViewAction.refreshPage()
-            }
-        })
+        add(OnResumedAction { pagingTableViewAction.refreshPage() })
     }
 
     private fun doWhenNotNull(run: (entity: M)->Unit) {
